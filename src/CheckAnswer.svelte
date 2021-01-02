@@ -19,7 +19,7 @@
 </style>
 
 <script lang="ts">
-  import { derived, get } from "svelte/store";
+  import { derived } from "svelte/store";
   import { create as createConfetti } from "canvas-confetti";
   import { COUNT, DIVISOR, NOMINATOR } from "./state";
   import { onMount } from "svelte";
@@ -73,7 +73,7 @@
   };
 
   const next = () => {
-    COUNT.set(get(COUNT) + 1);
+    COUNT.update((v) => v + 1);
     state = State.Ready;
   };
 
