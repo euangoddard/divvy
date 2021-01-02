@@ -1,9 +1,12 @@
 <style>
   form {
+    position: fixed;
+    z-index: 2;
+      width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-      margin-block-end: 2rem;
+    margin-block-end: 2rem;
   }
 
   select {

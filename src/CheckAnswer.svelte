@@ -5,6 +5,7 @@
     bottom: 0;
     width: calc(100% - 1rem);
     padding: 0.5rem;
+    z-index: 2;
   }
 
   .buttons {
@@ -31,7 +32,7 @@
   let confetti: Function;
   onMount(() => {
     confetti = createConfetti(null, { resize: true, useWorker: true } as any);
-  })
+  });
 
   derived([DIVISOR, NOMINATOR], (i) => i).subscribe(([d, n]) => {
     divisor = d;
@@ -57,7 +58,7 @@
   };
 
   const fireConfetti = () => {
-    const element = document.getElementById('footer');
+    const element = document.getElementById("footer");
     const { top, left, width, height } = element.getBoundingClientRect();
     const x = left + width / 2;
     const y = top + height / 2;
@@ -69,7 +70,7 @@
         y: y / window.innerHeight,
       },
     });
-  }
+  };
 
   const next = () => {
     COUNT.set(get(COUNT) + 1);
