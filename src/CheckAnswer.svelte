@@ -19,12 +19,19 @@
 
 <script lang="ts">
   import { derived, get } from "svelte/store";
+  import { create as createConfetti } from "canvas-confetti";
   import { COUNT, DIVISOR, NOMINATOR } from "./state";
+  import { onMount } from "svelte";
 
   export let answer: number;
   export let userAnswer: number | null;
   let nominator: number;
   let divisor: number;
+
+  let confetti: Function;
+  onMount(() => {
+    confetti = createConfetti(null, { resize: true, useWorker: true } as any);
+  })
 
   derived([DIVISOR, NOMINATOR], (i) => i).subscribe(([d, n]) => {
     divisor = d;
@@ -43,10 +50,26 @@
   const checkAnswer = () => {
     if (answer === userAnswer) {
       state = State.Correct;
+      fireConfetti();
     } else {
       state = State.Incorrect;
     }
   };
+
+  const fireConfetti = () => {
+    const element = document.getElementById('footer');
+    const { top, left, width, height } = element.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+
+    confetti({
+      particleCount: 100,
+      origin: {
+        x: x / window.innerWidth,
+        y: y / window.innerHeight,
+      },
+    });
+  }
 
   const next = () => {
     COUNT.set(get(COUNT) + 1);
@@ -62,7 +85,7 @@
   };
 </script>
 
-<footer>
+<footer id="footer">
   {#if state === State.Ready}
     <div class="buttons">
       <button
