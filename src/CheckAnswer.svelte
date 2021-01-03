@@ -29,16 +29,6 @@
   let nominator: number;
   let divisor: number;
 
-  let confetti: Function;
-  onMount(() => {
-    confetti = createConfetti(null, { resize: true, useWorker: true } as any);
-  });
-
-  derived([DIVISOR, NOMINATOR], (i) => i).subscribe(([d, n]) => {
-    divisor = d;
-    nominator = n;
-  });
-
   const enum State {
     Ready,
     Incorrect,
@@ -47,6 +37,17 @@
   }
 
   let state: State = State.Ready;
+
+  let confetti: Function;
+  onMount(() => {
+    confetti = createConfetti(null, { resize: true, useWorker: true } as any);
+  });
+
+  derived([DIVISOR, NOMINATOR], (i) => i).subscribe(([d, n]) => {
+    divisor = d;
+    nominator = n;
+    state = State.Ready;
+  });
 
   const checkAnswer = () => {
     if (answer === userAnswer) {
